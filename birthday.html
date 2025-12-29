@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Dhruvi ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .begin-btn {
+            margin-top: 40px;
+            padding: 15px 50px;
+            font-size: 1.2em;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            backdrop-filter: blur(10px);
+        }
+
+        .begin-btn:hover {
+            background: #fff;
+            color: #667eea;
+            transform: scale(1.05);
+        }
+
+        /* Page transition */
+        .page {
+            min-height: 100vh;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+            display: none;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .page.hide {
+            opacity: 0;
+            transform: translateY(-50px);
+            display: none;
+        }
+
+        /* Card sections */
+        .card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .card h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #fff;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .gallery-item:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s;
+            z-index: 1;
+        }
+
+        .gallery-item:hover:before {
+            width: 300%;
+            height: 300%;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 50px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .timeline-item.visible .timeline-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.3); }
+        }
+
+        /* Wishes section */
+        .wishes-list {
+            margin-top: 30px;
+        }
+
+        .wish-item {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: 15px;
+            border-left: 4px solid #fff;
+            transform: translateX(-100px);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .wish-item.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 1.1em;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        .heart {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.2); }
+            20%, 40% { transform: scale(1); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            pointer-events: none;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .card { padding: 30px 20px; }
+            .timeline:before { left: 20px; }
+            .timeline-item { flex-direction: column !important; }
+            .timeline-content { width: 100%; margin-left: 40px; }
+            .timeline-dot { left: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Landing Page -->
+        <div class="page active" id="landing-page">
+            <div class="hero">
+                <h1>Today is not just a day… It's Dhruvi's Day ✨</h1>
+                <p>This little cinematic space is made just to celebrate you — your smile, your warmth, and the happiness you bring into the world. May this year give you reasons to smile even more.</p>
+                <button class="begin-btn" onclick="goToStoryPage()">Begin the Story</button>
+            </div>
+        </div>
+
+        <!-- Story Page -->
+        <div class="page" id="story-page">
+        <div class="card" id="moments">
+            <h2>Beautiful Moments 🌸</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">A few frames from a story that keeps getting better.</p>
+            <div class="gallery">
+                <div class="gallery-item"><img src="img1.jpg" alt="Memory 1"></div>
+                <div class="gallery-item"><img src="img2.jpg" alt="Memory 2"></div>
+                <div class="gallery-item"><img src="img3.jpg" alt="Memory 3"></div>
+                <div class="gallery-item"><img src="img4.jpg" alt="Memory 4"></div>
+                <div class="gallery-item"><img src="img5.jpg" alt="Memory 5"></div>
+                <div class="gallery-item"><img src="img6.jpg" alt="Memory 6"></div>
+            </div>
+        </div>
+
+        <div class="card" id="journey">
+            <h2>Our Journey 💝</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>✨ The Beginning</h3>
+                        <p>The day our paths crossed and everything started to feel a little more magical.</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>💫 Building Memories</h3>
+                        <p>The moments that turned into memories, each one more precious than the last.</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>🌟 Every Smile</h3>
+                        <p>Every smile that made everything feel worth it, every laugh that brightened the day.</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="wishes">
+            <h2>Birthday Wishes 🎂</h2>
+            <div class="wishes-list">
+                <div class="wish-item">
+                    <strong>💖 Love:</strong> May your heart always be full of love and surrounded by those who cherish you.
+                </div>
+                <div class="wish-item">
+                    <strong>☮️ Peace:</strong> May you find calm in chaos and peace in every moment.
+                </div>
+                <div class="wish-item">
+                    <strong>🌈 Joy:</strong> May endless beautiful moments fill your days with happiness and wonder.
+                </div>
+                <div class="wish-item">
+                    <strong>✨ Dreams:</strong> May all your dreams take flight and your aspirations come true.
+                </div>
+                <div class="wish-item">
+                    <strong>🎯 Success:</strong> May this year bring you closer to everything you've been working towards.
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="forever">
+            <h2>Forever Special 💝</h2>
+            <p style="text-align: center; font-size: 1.3em; line-height: 1.8;">
+                Happy Birthday once again, Dhruvi. May your life be filled with love, peace, and endless beautiful moments. Here's to another year of wonderful memories and dreams coming true. You deserve all the happiness in the world. ✨
+            </p>
+        </div>
+
+        <div class="footer">
+            Crafted with <span class="heart">❤️</span> for Dhruvi
+        </div>
+        </div>
+    </div>
+
+    <script>
+        // Go to story page
+        function goToStoryPage() {
+            const landingPage = document.getElementById('landing-page');
+            const storyPage = document.getElementById('story-page');
+            
+            // Hide landing page
+            landingPage.classList.add('hide');
+            
+            // Show story page after a short delay
+            setTimeout(() => {
+                landingPage.classList.remove('active');
+                storyPage.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                createConfetti();
+            }, 500);
+        }
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        // Create floating particles
+        function createParticles() {
+            const particles = ['✨', '💫', '⭐', '🌟', '💖', '🎈'];
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            document.querySelectorAll('.card, .timeline-item, .wish-item').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Confetti on load
+            setTimeout(createConfetti, 500);
+        });
+    </script>
+</body>
+</html>
